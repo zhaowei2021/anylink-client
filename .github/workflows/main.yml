@@ -1,10 +1,6 @@
-name: Build AnyLink for Windows
-
-on: [push]
-
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: windows-latest
 
     steps:
     - name: Checkout code
@@ -16,12 +12,10 @@ jobs:
         platform: x64
 
     - name: Install dependencies
-      shell: powershell
       run: |
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-
+    
     - name: Build AnyLink
-      shell: powershell
       run: |
         mkdir build
         cd build
