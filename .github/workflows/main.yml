@@ -21,7 +21,7 @@ jobs:
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
     - name: Build AnyLink
-      shell: pwsh
+      shell: powershell
       run: |
         mkdir build
         cd build
