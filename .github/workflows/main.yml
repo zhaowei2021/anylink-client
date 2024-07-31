@@ -1,0 +1,27 @@
+name: Build AnyLink for Windows
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up MinGW
+      uses: egor-tensin/setup-mingw@v1
+      with:
+        architecture: x86_64
+
+    - name: Install dependencies
+      run: |
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+
+    - name: Build AnyLink
+      run: |
+        mkdir build
+        cd build
+        cmake -G "MinGW Makefiles" ..
+        mingw32-make
