@@ -20,7 +20,6 @@ jobs:
 
     - name: Set Qt environment
       run: |
-        sudo qtchooser -install qt5 /usr/lib/qt5/bin/qmake
         sudo qtchooser -run-tool=qmake -qt=qt5
 
     - name: Configure with qmake
