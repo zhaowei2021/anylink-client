@@ -13,23 +13,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: 更新 Git 子模块
-      run: git submodule update --init --recursive
-
     - name: 安装 MinGW 和 Qt 依赖
       run: |
         sudo apt-get update
         sudo apt-get install -y mingw-w64 qtbase5-dev qt5-qmake qtbase5-dev-tools libqt5websockets5-dev
 
-    - name: 设置 MinGW 环境
+    - name: 设置 MinGW 编译器环境变量
       run: |
-        export PATH=/usr/bin:$PATH
-        export CC=x86_64-w64-mingw32-gcc
-        export CXX=x86_64-w64-mingw32-g++
-        export WINDRES=x86_64-w64-mingw32-windres
+        export PATH=/usr/bin/x86_64-w64-mingw32-gcc:/usr/bin/x86_64-w64-mingw32-g++:$PATH
 
     - name: 使用 qmake 配置
-      run: qmake -set spec win32-g++
+      run: |
+        qmake -spec win32-g++ CONFIG+=cross_compile
 
     - name: 使用 make 构建
       run: mingw32-make
@@ -38,4 +33,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: windows-build-output
-        path: *.exe
+        path: build/*.exe
