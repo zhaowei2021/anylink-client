@@ -13,14 +13,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Update Git submodules
+      run: git submodule update --init --recursive
+
     - name: Install MinGW and Qt
       run: |
         sudo apt-get update
-        sudo apt-get install -y mingw-w64 qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
-
-    - name: Set Qt environment
-      run: |
-        sudo qtchooser -run-tool=qmake -qt=qt5
+        sudo apt-get install -y mingw-w64 qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libqt5websockets5-dev
 
     - name: Configure with qmake
       run: qmake -spec win32-g++
