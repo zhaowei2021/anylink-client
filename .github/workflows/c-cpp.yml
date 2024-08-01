@@ -13,11 +13,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
+
+    - name: Install Qt
+      run: sudo apt-get install -y qt5-qmake qtbase5-dev
+
+    - name: Configure with qmake
+      run: qmake
+
+    - name: Build with make
       run: make
-    - name: make check
+
+    - name: Run tests
       run: make check
-    - name: make distcheck
+
+    - name: Run distcheck
       run: make distcheck
