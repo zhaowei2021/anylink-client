@@ -26,8 +26,11 @@ jobs:
     - name: Build with make
       run: make
 
+    - name: List build files
+      run: ls build
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: build-output
-        path: path/to/your/output/files
+        path: build/*
