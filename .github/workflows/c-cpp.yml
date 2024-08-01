@@ -1,39 +1,25 @@
-name: C/C++ CI
+name: Build for Windows
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push, pull_request]
 
 jobs:
-  build:
-
+  build-windows:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v2
 
-    - name: Update Git submodules
-      run: git submodule update --init --recursive
-
-    - name: Install Qt dependencies
-      run: sudo apt-get install -y qt5-qmake qtbase5-dev libqt5websockets5-dev
-
-    - name: Create build directory
-      run: mkdir -p build
+    - name: Install MinGW and dependencies
+      run: sudo apt-get install -y mingw-w64 qt5-qmake
 
     - name: Configure with qmake
-      run: qmake -o build
+      run: qmake -spec win32-g++
 
     - name: Build with make
-      run: make -C build
-
-    - name: List build files
-      run: ls build
+      run: mingw32-make
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: build-output
-        path: build/*
+        name: windows-build-output
+        path: path/to/your/output/files/*.exe
