@@ -18,9 +18,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y mingw-w64 qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libqt5websockets5-dev
 
-    - name: Set up MinGW environment
+    - name: Set environment for MinGW
       run: |
-        export PATH=/usr/bin/x86_64-w64-mingw32-g++:/usr/bin/x86_64-w64-mingw32-gcc:$PATH
+        export CC=x86_64-w64-mingw32-gcc
+        export CXX=x86_64-w64-mingw32-g++
+        export PATH=/usr/bin:$PATH
 
     - name: Configure with qmake
       run: qmake -spec win32-g++
