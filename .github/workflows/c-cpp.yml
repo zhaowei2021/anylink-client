@@ -13,25 +13,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: 更新 Git 子模块
-      run: git submodule update --init --recursive
-
-    - name: 安装 MinGW 和 Qt 依赖
+    - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y mingw-w64 qtbase5-dev qt5-qmake qtbase5-dev-tools libqt5websockets5-dev
+        sudo apt-get install -y mingw-w64 cmake make
 
-    - name: 设置 MinGW 环境
+    - name: Configure CMake
       run: |
-        export PATH=/usr/bin/x86_64-w64-mingw32-gcc:/usr/bin/x86_64-w64-mingw32-g++:$PATH
+        mkdir build
+        cd build
+        cmake -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++ ..
 
-    - name: 使用 qmake 配置
-      run: qmake -spec win32-g++
+    - name: Build with Make
+      run: |
+        cd build
+        make
 
-    - name: 使用 make 构建
-      run: mingw32-make
-
-    - name: 上传构建产物
+    - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: windows-build-output
