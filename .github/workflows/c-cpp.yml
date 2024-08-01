@@ -1,3 +1,11 @@
+name: Build for Windows
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
   build-windows:
     runs-on: ubuntu-latest
@@ -7,8 +15,8 @@ jobs:
 
     - name: Install MinGW and Qt
       run: |
-        sudo apt-get install -y mingw-w64
-        sudo apt-get install -y qt5-default qt5-qmake
+        sudo apt-get update
+        sudo apt-get install -y mingw-w64 qt5-default qt5-qmake
 
     - name: Configure with qmake
       run: qmake -spec win32-g++
@@ -20,4 +28,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: windows-build-output
-        path: path/to/your/output/files/*.exe
+        path: build/*.exe
